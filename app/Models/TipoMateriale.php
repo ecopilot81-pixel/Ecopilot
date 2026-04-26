@@ -8,7 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class TipoMateriale extends Model
 {
     use HasFactory;
-
-    protected $table = 'tipo_materiales';
-    protected $primaryKey = 'Id_material';
 }
