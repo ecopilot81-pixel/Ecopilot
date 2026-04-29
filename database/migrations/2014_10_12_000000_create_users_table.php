@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id('Id_usuario');
 
-            $table->foreignId('id_rol')->constrained('roles', 'Id_rol');
-            $table->foreignId('id_zona')->constrained('zonas', 'Id_zona');
+            $table->foreignId('id_rol')->constrained('roles', 'Id_rol')onDelete('restrict');
+            $table->foreignId('id_zona')->constrained('zonas', 'Id_zona')onDelete('restrict');
 
             $table->string('name');
             $table->string('email')->unique();
