@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id('Id_contenido');
 
             $table->foreignId('id_usuario')->nullable()->constrained('users', 'Id_usuario')->onDelete('set null');
-
-            $table->foreignId('id_categoria')->constrained('categoria_globals', 'Id_categoria');
+            
+            $table->foreignId('id_categoria')->constrained('categoria_globals', 'Id_categoria')->onDelete('restrict');
 
             $table->string('titulo', 255);
             $table->string('tipo_publico');
