@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id('Id_usuario');
+            $table->id();
 
-            $table->foreignId('id_rol')->constrained('roles', 'Id_rol')->onDelete('restrict');
-            $table->foreignId('id_zona')->constrained('zonas', 'Id_zona')->onDelete('restrict');
+            $table->foreignId('rol_id')->constrained()->onDelete('restrict');
+            $table->foreignId('zona_id')->constrained()->onDelete('restrict');
 
             $table->string('name');
             $table->string('email')->unique();
@@ -24,7 +24,6 @@ return new class extends Migration
             $table->integer('puntos_totales')->default(0);
             $table->boolean('estado_onboarding')->default(false);
             $table->string('estado_usuario')->default('activo');
-            $table->date('fecha_registro');
             $table->date('ultimo_login')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('noticias', function (Blueprint $table) {
-            $table->id('Id_noticia');
+            $table->id();
 
-            $table->foreignId('id_categoria')->nullable()->constrained('categoria_globals', 'Id_categoria');
-            $table->foreignId('id_usuario')->nullable()->constrained('users', 'Id_usuario')->onDelete('set null');
+            $table->foreignId('categoria_global_id')->constrained()->onDelete('restrict');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
 
             $table->string('titulo', 255);
             $table->text('resumen');
@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('imagen_destacada')->nullable();
             $table->string('fuente')->nullable();
             $table->string('url_fuente')->nullable();
-            $table->date('fecha_publicacion');
             $table->string('estado_noticia')->default('publicada');
             $table->timestamps();
         });
@@ -37,3 +36,5 @@ return new class extends Migration
         Schema::dropIfExists('noticias');
     }
 };
+
+

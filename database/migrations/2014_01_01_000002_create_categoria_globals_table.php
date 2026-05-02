@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('configuracion_sistemas', function (Blueprint $table) {
-            $table->id('Id_configuracion');
-            $table->string('clave', 50)->unique();
-            $table->text('valor');
+        Schema::create('categoria_globals', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre', 100);
+            $table->string('icono', 255)->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('configuracion_sistemas');
+        Schema::dropIfExists('categoria_globals');
     }
 };

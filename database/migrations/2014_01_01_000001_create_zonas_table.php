@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('zonas', function (Blueprint $table) {
-            $table->id('Id_zona');
-            $table->string('nombre_zona', 100);
+            $table->id();
+            $table->string('nombre', 100);
             $table->string('codigo_postal', 20)->nullable();
-            $table->boolean('estado_zona')->default(true);
+            $table->boolean('estado')->default(true);
             $table->timestamps();
         });
     }

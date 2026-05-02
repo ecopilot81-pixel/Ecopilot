@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tipo_materiales', function (Blueprint $table) {
-            $table->id('Id material');
-            $table->string('nombre_material', 50)->unique();
-            $table->integer('valor_puntos')->default(0); 
-            $table->string('unidad_medidas', 20)->default('unidades');
-            $table->text('instruciones');
+            $table->id();
+            $table->string('nombre', 50)->unique();
+            $table->integer('valor_puntos')->default(0);
+            $table->string('unidad_medida', 20)->default('unidades');
+            $table->text('instrucciones');
             $table->string('icono')->nullable();
             $table->timestamps();
         });

@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('entrenamiento_bots', function (Blueprint $table) {
-            $table->id('Id_interaccion'); 
-            $table->string('tema', 100);
-            $table->text('informacion_clave');
+        Schema::create('categoria_tiendas', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre', 50)->unique();
+            $table->text('descripcion')->nullable();
+            $table->boolean('estado')->default(true);
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('entrenamiento_bots');
+        Schema::dropIfExists('categoria_tiendas');
     }
 };

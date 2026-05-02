@@ -12,11 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('contenido_educativos', function (Blueprint $table) {
-            $table->id('Id_contenido');
+            $table->id();
 
-            $table->foreignId('id_usuario')->nullable()->constrained('users', 'Id_usuario')->onDelete('set null');
-            
-            $table->foreignId('id_categoria')->constrained('categoria_globals', 'Id_categoria')->onDelete('restrict');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('categoria_global_id')->constrained()->onDelete('restrict');
 
             $table->string('titulo', 255);
             $table->string('tipo_publico');

@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('perfiles', function (Blueprint $table) {
+        Schema::create('ranking_semanales', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
-            $table->string('nombre', 50);
-            $table->string('apellido', 50);
-            $table->string('alias')->unique();
-            $table->string('telefono')->nullable();
-            $table->string('ciudad')->nullable();
-            $table->string('foto_perfil')->nullable();
-            $table->string('biografia')->nullable();
+            $table->integer('puntos_semanales')->default(0);
+            $table->integer('posicion')->nullable();
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
+            $table->string('recompensa', 255)->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('perfiles');
+        Schema::dropIfExists('ranking_semanales');
     }
 };

@@ -11,18 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('perfiles', function (Blueprint $table) {
+        Schema::create('feedback', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
 
-            $table->string('nombre', 50);
-            $table->string('apellido', 50);
-            $table->string('alias')->unique();
-            $table->string('telefono')->nullable();
-            $table->string('ciudad')->nullable();
-            $table->string('foto_perfil')->nullable();
-            $table->string('biografia')->nullable();
+            $table->integer('puntuacion');
+            $table->string('comentario')->nullable();
+            $table->string('version_app')->nullable();
+            $table->boolean('estado_visible')->default(true);
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('perfiles');
+        Schema::dropIfExists('feedback');
     }
 };
