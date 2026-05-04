@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('tipo_material_id')->constrained()->onDelete('restrict');
-            $table->foreignId('punto_recoleccion_id')->constrained()->onDelete('restrict');
+            $table->foreignId('tipo_material_id')->constrained('tipo_materiales')->onDelete('restrict');
+            $table->foreignId('punto_recoleccion_id')->constrained('punto_recoleciones')->onDelete('restrict');
 
             $table->decimal('cantidad', 8, 2);
             $table->integer('puntos_ganados');

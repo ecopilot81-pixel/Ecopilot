@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('material_por_puntos', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('tipo_material_id')->constrained()->onDelete('cascade');
-            $table->foreignId('punto_recolecion_id')->constrained()->onDelete('cascade');
+            $table->foreignId('tipo_material_id')->constrained('tipo_materiales')->onDelete('cascade');
+            $table->foreignId('punto_recolecion_id')->constrained('punto_recoleciones')->onDelete('cascade');
 
             $table->boolean('disponible')->default(true);
             $table->timestamp('fecha_vinculacion')->useCurrent();

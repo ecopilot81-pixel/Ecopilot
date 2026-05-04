@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
+
             $table->string('nombre', 50);
             $table->text('descripcion')->nullable();
             $table->boolean('estado')->default(true);
-            $table->string('fecha_creacion', 100);
             $table->timestamps();
         });
     }
