@@ -10,7 +10,9 @@ class TipoMateriale extends Model
     use HasFactory;
 
     public function puntoRecolecciones(){
-        return $this->belongsToMany(PuntoRecolecione::class, 'material_por_punto')
+        return $this->belongsToMany(PuntoRecolecione::class, 'material_por_puntos',
+        'tipo_material_id',
+        'punto_recolecion_id')
                     ->withPivot('disponible', 'fecha_vinculacion');
     }
 

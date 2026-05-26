@@ -7,6 +7,9 @@ use App\Models\perfile;
 use App\Models\User;
 use App\Models\Feedback;
 use App\Models\CategoriaGlobal;
+use App\Models\TipoMateriale;
+use App\Models\MaterialPorPunto;
+use App\Models\RegistroReciclaje;
 
 class ConsultasController extends Controller
 {
@@ -31,5 +34,12 @@ class ConsultasController extends Controller
         $user = User::find(1);
         $use = User::with('contenidosEducativos.categoriaGlobal')->get();
         return $use;
+    }
+
+    // CONSULTA QUE PERFIL DE USUARIO Y QUE TIPO DE MATERIAL REGISTRO, EN QUE PUNTO DE RECOLECCION Y CUANTOS PUNTOS GANO
+    public function consulta(){
+        $materialPorPunto = RegistroReciclaje::with('tipoMaterial.puntoRecolecciones')->find(1);
+
+        return $materialPorPunto;
     }
 }
