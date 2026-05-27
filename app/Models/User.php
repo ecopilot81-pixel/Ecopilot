@@ -64,7 +64,7 @@ class User extends Authenticatable
     }
     // Un usuario pertenece a un rol.
     public function role(){
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'rol_id');
     }
     // Un usuario tiene muchas recompensas reclamadas.
     public function recompensasReclamadas(){
