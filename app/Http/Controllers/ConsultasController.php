@@ -67,4 +67,9 @@ class ConsultasController extends Controller
         return $material;
     }
 
+    public function ver(){
+        $anidada = CategoriaGlobal::with('noticias')->find(1);
+        return $anidada;
+    }
+
 }

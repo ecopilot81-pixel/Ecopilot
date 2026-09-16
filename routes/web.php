@@ -18,4 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/consultas', [ConsultasController::class, 'userMaterial']);
+Route::get('/consultas', [ConsultasController::class, 'ver']);
