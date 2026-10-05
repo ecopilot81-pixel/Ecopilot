@@ -21,4 +21,16 @@ class TiendaItem extends Model
     public function categoriaTienda(){
         return $this->belongsTo(CategoriaTienda::class);
     }
+
+    protected $table = 'tienda_items';
+
+    protected $fillable = [
+        'categoria_tienda_id',
+        'nombre_item',
+        'descripcion_beneficio',
+        'costo_moneda_virtual',
+        'stock',
+        'imagen_item',
+    ];
 }
+

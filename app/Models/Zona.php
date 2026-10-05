@@ -16,4 +16,10 @@ class Zona extends Model
     public function puntorecoleciones(){
         return $this->hasMany(PuntoRecolecione::class);
     }
+
+    protected $fillable = [
+        'nombre',
+        'codigo_postal',
+        'estado',
+    ];
 }

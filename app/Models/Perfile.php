@@ -12,4 +12,15 @@ class Perfile extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    protected $fillable = [
+        'nombre',
+        'apellido',
+        'alias',
+        'telefono',
+        'ciudad',
+        'foto_perfil',
+        'biografia',
+        'user_id',
+    ];
 }

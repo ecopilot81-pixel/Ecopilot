@@ -16,4 +16,12 @@ class PaseTemporada extends Model
     public function tiendaItem(){
         return $this->belongsTo(TiendaItem::class);
     }
+
+    protected $fillable = [
+        'nivel_requerido',
+        'tipo_pase',
+        'cantidad_recompensa',
+        'temporada',
+        'tienda_item_id'
+    ];
 }

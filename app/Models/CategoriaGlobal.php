@@ -16,4 +16,11 @@ class CategoriaGlobal extends Model
     public function contenidosEducativos(){
         return $this->hasMany(ContenidoEducativo::class);
     }
+
+    protected $table = 'categoria_globals';
+
+    protected $fillable = [
+        'nombre',
+        'icono',
+    ];
 }

@@ -16,4 +16,16 @@ class ContenidoEducativo extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    protected $fillable = [
+        'titulo',
+        'tipo_publico',
+        'tipo_formato',
+        'descripcion',
+        'url_recurso',
+        'user_id',
+        'categoria_global_id',
+    ];
 }
+
+

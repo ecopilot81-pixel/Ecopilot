@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('zonas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 100);
+            $table->string('nombre', 100)->unique();
             $table->string('codigo_postal', 20)->nullable();
             $table->boolean('estado')->default(true);
             $table->timestamps();

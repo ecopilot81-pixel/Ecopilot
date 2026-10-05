@@ -22,4 +22,16 @@ class RegistroReciclaje extends Model
     public function puntoRecoleccion() {
         return $this->belongsTo(PuntoRecolecione::class);
     }
+
+    protected $table = 'registro_reciclajes';
+
+    protected $fillable = [
+        'user_id',
+        'tipo_material_id',
+        'punto_recoleccion_id',
+        'cantidad',
+        'puntos_ganados',
+        'estado',
+    ];
 }
+

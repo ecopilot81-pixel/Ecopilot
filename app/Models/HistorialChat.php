@@ -12,4 +12,10 @@ class HistorialChat extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    protected $fillable = [
+        'pregunta_usuario',
+        'respuesta_bot',
+        'user_id',
+    ];
 }

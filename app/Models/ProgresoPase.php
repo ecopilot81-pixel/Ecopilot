@@ -12,4 +12,11 @@ class ProgresoPase extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    protected $fillable = [
+        'experiencia',
+        'nivel_actual',
+        'es_premium',
+        'user_id',
+    ];
 }

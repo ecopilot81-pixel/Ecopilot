@@ -12,4 +12,13 @@ class RankingSemanale extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    protected $fillable = [
+        'puntos_semanales',
+        'posicion',
+        'fecha_inicio',
+        'fecha_fin',
+        'recompensa',
+        'user_id',
+    ];
 }

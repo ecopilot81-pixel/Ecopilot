@@ -19,4 +19,12 @@ class TipoMateriale extends Model
     public function registroReciclajes() {
         return $this->hasMany(RegistroReciclaje::class);
     }
+
+    protected $fillable = [
+        'nombre',
+        'valor_puntos',
+        'unidad_medidas',
+        'instrucciones',
+        'icono',
+    ];
 }

@@ -16,4 +16,16 @@ class Noticia extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    protected $fillable = [
+    'titulo',               
+    'resumen',          
+    'contenido',          
+    'imagen_destacada',    
+    'fuente',               
+    'url_fuente',           
+    'estado_noticia',       
+    'user_id',
+    'categoria_global_id',
+    ];
 }

@@ -21,4 +21,16 @@ class PuntoRecolecione extends Model
     public function zona(){
         return $this->belongsTo(Zona::class);
     }
+
+    protected $fillable = [
+        'nombre_lugar',
+        'direccion',
+        'latitud',
+        'longitud',
+        'telefono',
+        'horario_atencion',
+        'estado_punto',
+        'administrador_id',
+        'zona_id',
+    ];
 }

@@ -16,4 +16,14 @@ class MaterialPorPunto extends Model
     public function puntoRecoleccion(){
         return $this->belongsTo(PuntoRecolecione::class);
     } 
+
+    protected $table = 'material_por_puntos';
+
+    protected $fillable = [
+        'tipo_material_id',
+        'punto_recolecion_id',
+        'disponible',
+        'fecha_vinculacion',
+    ];
 }
+

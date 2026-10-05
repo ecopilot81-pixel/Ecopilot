@@ -17,4 +17,12 @@ class RecompensaReclamada extends Model
     public function paseTemporada(){
         return $this->belongsTo(PaseTemporada::class);
     }
+
+    protected $table = 'recompensa_reclamadas';
+
+    protected $fillable = [
+        'user_id',
+        'pase_temporada_id',
+        'fecha_reclamo'
+    ];
 }

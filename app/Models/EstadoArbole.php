@@ -12,4 +12,12 @@ class EstadoArbole extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    protected $fillable = [
+        'nivel_crecimiento',
+        'moneda_virtual_saldo',
+        'ultima_interaccion',
+        'user_id',
+    ];
 }
+

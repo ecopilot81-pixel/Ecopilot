@@ -17,10 +17,19 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $table = 'users';
+
     protected $fillable = [
+        'rol_id',
+        'zona_id',
         'name',
         'email',
         'password',
+        'puntos_totales',
+        'estado_onboarding',
+        'estado_usuario',
+        'ultimo_login',
     ];
 
     /**
@@ -40,6 +49,9 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'ultimo_login'      => 'date',
+        'estado_onboarding' => 'boolean',
+        'password'          => 'hashed',
     ];
 
     // Un usuario tiene muchos feedbacks.

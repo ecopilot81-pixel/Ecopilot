@@ -12,4 +12,11 @@ class CategoriaTienda extends Model
     public function tiendaItems(){
         return $this->hasMany(TiendaItem::class);
     }
+
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+        'estado',
+    ];
 }
+

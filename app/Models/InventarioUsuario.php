@@ -16,4 +16,12 @@ class InventarioUsuario extends Model
     public function tiendaItem(){
         return $this->belongsTo(TiendaItem::class);
     }
+
+    protected $fillable = [
+        'user_id',
+        'tienda_item_id',
+        'cantidad',
+    ];
 }
+
+
