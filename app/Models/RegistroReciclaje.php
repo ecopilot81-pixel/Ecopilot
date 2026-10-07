@@ -15,7 +15,7 @@ class RegistroReciclaje extends Model
 
     // Un registro de reciclaje pertenence a un tipo de material.
     public function tipoMaterial() {
-        return $this->belongsTo(TipoMateriale::class);
+        return $this->belongsTo(TipoMateriale::class, 'tipo_material_id');
     }
 
     // Un registro de reciclaje pertenence a un punto de recoleccion.

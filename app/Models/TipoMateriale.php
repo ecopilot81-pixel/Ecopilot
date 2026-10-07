@@ -17,7 +17,7 @@ class TipoMateriale extends Model
     }
 
     public function registroReciclajes() {
-        return $this->hasMany(RegistroReciclaje::class);
+        return $this->hasMany(RegistroReciclaje::class, 'tipo_material_id');
     }
 
     protected $fillable = [

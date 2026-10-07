@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoriaGlobalController;
 use App\Http\Controllers\CategoriaTiendaController;
 use App\Http\Controllers\ContenidoEducativoController;
+use App\Http\Controllers\ConsultasController;
 use App\Http\Controllers\EstadoArboleController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\HistorialChatController;
@@ -80,3 +81,14 @@ Route::apiResource('registros', RegistroReciclajeController::class);
 Route::apiResource('items', TiendaItemController::class);
 // RUTA USUARIO
 Route::apiResource('usuarios', UserController::class);
+
+Route::get('consultas/noticias', [ConsultasController::class, 'noticiasConCategoriaYAutor']);
+Route::get('consultas/puntos-zona', [ConsultasController::class, 'puntosConZona']);
+Route::get('consultas/reciclajes', [ConsultasController::class, 'reciclajesConUsuarioYMaterial']);
+Route::get('consultas/rankings', [ConsultasController::class, 'rankingsOrdenados']);
+Route::get('consultas/usuarios-rol-zona', [ConsultasController::class, 'usuariosConRolYZona']);
+Route::get('consultas/usuarios-conteo-reciclajes', [ConsultasController::class, 'usuariosConConteoReciclajes']);
+Route::get('consultas/materiales-conteo-reciclajes', [ConsultasController::class, 'materialesConConteoReciclajes']);
+Route::get('consultas/categorias-conteos', [ConsultasController::class, 'categoriasConConteos']);
+Route::get('consultas/inventarios', [ConsultasController::class, 'inventariosDetallados']);
+Route::get('consultas/feedbacks-visibles', [ConsultasController::class, 'feedbacksVisibles']);
