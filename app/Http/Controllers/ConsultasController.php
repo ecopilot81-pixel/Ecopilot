@@ -15,6 +15,10 @@ use App\Models\InventarioUsuario;
 use App\Models\Noticia;
 use App\Models\PuntoRecolecione;
 use App\Models\RankingSemanale;
+use App\Models\CategoriaTienda;
+use App\Models\EstadoArbole;
+use App\Models\HistorialChat;
+use App\Models\ProgresoPase;
 
 class ConsultasController extends Controller
 {
@@ -133,7 +137,57 @@ class ConsultasController extends Controller
         return Feedback::with('user')->where('estado_visible', true)->get();
     }
 
-    //Alejandro:
+    // Consulta anidada: muestra cada usuario con su perfil y zona.
+    public function usuariosConPerfilYZona(){
+        return User::with(['perfil', 'zona'])->get();
+    }
 
+    // Consulta anidada: muestra las noticias de cada usuario y su categoría.
+    public function usuariosConNoticiasYCategoria(){
+        return User::with('noticias.categoriaGlobal')->get();
+    }
+
+    // Consulta anidada: muestra las recompensas de cada usuario y el pase asociado.
+    public function usuariosConRecompensasYPase(){
+        return User::with('recompensasReclamadas.paseTemporada')->get();
+    }
+
+    // Consulta anidada: muestra los reciclajes de cada usuario y sus materiales.
+    public function usuariosConReciclajesYMaterial(){
+        return User::with('registrosReciclaje.tipoMaterial')->get();
+    }
+
+    // Consulta Eloquent: lista cada rol con sus usuarios.
+    public function rolesConUsuarios(){
+        return Role::with('users')->get();
+    }
+
+    // Consulta Eloquent: lista las categorías de tienda con sus artículos.
+    public function categoriasTiendaConItems(){
+        return CategoriaTienda::with('tiendaItems')->get();
+    }
+
+    // Consulta Eloquent: lista los árboles con el usuario propietario.
+    public function arbolesConUsuarios(){
+        return EstadoArbole::with('user')->get();
+    }
+
+    // Consulta Eloquent: lista el progreso de pase junto con cada usuario.
+    public function progresosConUsuarios(){
+        return ProgresoPase::with('user')->get();
+    }
+
+    // Consulta Eloquent: lista feedbacks con puntuación de 4 o más y su autor.
+    public function feedbacksConPuntuacionAlta(){
+        return Feedback::with('user')
+            ->where('puntuacion', '>=', 4)
+            ->orderByDesc('puntuacion')
+            ->get();
+    }
+
+    // Consulta Eloquent: lista los chats junto con el usuario que los inició.
+    public function chatsConUsuarios(){
+        return HistorialChat::with('user')->get();
+    }
 
 }

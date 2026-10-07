@@ -92,3 +92,13 @@ Route::get('consultas/materiales-conteo-reciclajes', [ConsultasController::class
 Route::get('consultas/categorias-conteos', [ConsultasController::class, 'categoriasConConteos']);
 Route::get('consultas/inventarios', [ConsultasController::class, 'inventariosDetallados']);
 Route::get('consultas/feedbacks-visibles', [ConsultasController::class, 'feedbacksVisibles']);
+Route::get('consultas/usuarios-perfil-zona', [ConsultasController::class, 'usuariosConPerfilYZona']);
+Route::get('consultas/usuarios-noticias-categorias', [ConsultasController::class, 'usuariosConNoticiasYCategoria']);
+Route::get('consultas/usuarios-recompensas-pases', [ConsultasController::class, 'usuariosConRecompensasYPase']);
+Route::get('consultas/usuarios-reciclajes-materiales', [ConsultasController::class, 'usuariosConReciclajesYMaterial']);
+Route::get('consultas/roles-usuarios', [ConsultasController::class, 'rolesConUsuarios']);
+Route::get('consultas/categorias-tienda-items', [ConsultasController::class, 'categoriasTiendaConItems']);
+Route::get('consultas/arboles-usuarios', [ConsultasController::class, 'arbolesConUsuarios']);
+Route::get('consultas/progresos-usuarios', [ConsultasController::class, 'progresosConUsuarios']);
+Route::get('consultas/feedbacks-puntuacion-alta', [ConsultasController::class, 'feedbacksConPuntuacionAlta']);
+Route::get('consultas/chats-usuarios', [ConsultasController::class, 'chatsConUsuarios']);
