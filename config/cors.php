@@ -15,12 +15,16 @@ return [
     |
     */
 
-    // Apply CORS rules to the versioned API routes.
-    'paths' => ['v1/*', 'sanctum/csrf-cookie'],
+    // Conserva Sanctum y agrega las rutas web usadas por la sesión propia de React.
+    'paths' => ['v1/*', 'sanctum/csrf-cookie', 'csrf-token', 'login', 'logout', 'me', 'my-profile', 'my-collection'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    // Limita las cookies de sesión a los orígenes locales conocidos de Vite.
+    'allowed_origins' => explode(',', env(
+        'CORS_ALLOWED_ORIGINS',
+        'http://localhost:5173,http://localhost:5174,http://127.0.0.1:5173,http://127.0.0.1:5174'
+    )),
 
     'allowed_origins_patterns' => [],
 
@@ -30,6 +34,7 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    // Permite enviar y recibir la cookie de sesión en las solicitudes del frontend.
+    'supports_credentials' => true,
 
 ];
