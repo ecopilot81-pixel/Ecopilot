@@ -137,6 +137,7 @@ class ConsultasController extends Controller
         return Feedback::with('user')->where('estado_visible', true)->get();
     }
 
+    //Consultas Alejandro:
     // Consulta anidada: muestra cada usuario con su perfil y zona.
     public function usuariosConPerfilYZona(){
         return User::with(['perfil', 'zona'])->get();
