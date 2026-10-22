@@ -20,7 +20,7 @@ class RegistroReciclaje extends Model
 
     // Un registro de reciclaje pertenence a un punto de recoleccion.
     public function puntoRecoleccion() {
-        return $this->belongsTo(PuntoRecolecione::class);
+        return $this->belongsTo(PuntoRecolecione::class, 'punto_recoleccion_id');
     }
 
     protected $table = 'registro_reciclajes';
@@ -34,4 +34,3 @@ class RegistroReciclaje extends Model
         'estado',
     ];
 }
-

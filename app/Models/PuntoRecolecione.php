@@ -15,7 +15,7 @@ class PuntoRecolecione extends Model
     }
     // Un punto de recoleccion tiene muchos registros de reciclaje. 
     public function registroReciclajes(){
-        return  $this->hasMany(RegistroReciclaje::class);
+        return  $this->hasMany(RegistroReciclaje::class, 'punto_recoleccion_id');
     }
     // Un punto de recoleccion pertenece a una zona
     public function zona(){

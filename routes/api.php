@@ -102,3 +102,30 @@ Route::get('consultas/arboles-usuarios', [ConsultasController::class, 'arbolesCo
 Route::get('consultas/progresos-usuarios', [ConsultasController::class, 'progresosConUsuarios']);
 Route::get('consultas/feedbacks-puntuacion-alta', [ConsultasController::class, 'feedbacksConPuntuacionAlta']);
 Route::get('consultas/chats-usuarios', [ConsultasController::class, 'chatsConUsuarios']);
+
+
+
+
+
+Route::get('consultas/usuarios-activos-perfil-zona', [ConsultasController::class, 'usuariosActivosConPerfilYZona']);
+Route::get('consultas/usuarios-sin-onboarding', [ConsultasController::class, 'usuariosSinCompletarOnboarding']);
+Route::get('consultas/zonas-usuarios-puntos', [ConsultasController::class, 'zonasConUsuariosYPuntos']);
+Route::get('consultas/puntos-materiales-disponibles', [ConsultasController::class, 'puntosConMaterialesDisponibles']);
+Route::get('consultas/puntos-conteo-reciclajes', [ConsultasController::class, 'puntosConConteoDeReciclajes']);
+Route::get('consultas/materiales-puntos-disponibles', [ConsultasController::class, 'materialesConPuntosDisponibles']);
+Route::get('consultas/reciclajes-punto-zona', [ConsultasController::class, 'reciclajesConPuntoYZona']);
+Route::get('consultas/reciclajes-pendientes', [ConsultasController::class, 'reciclajesPendientesDeRevision']);
+Route::get('consultas/reciclajes-por-puntos', [ConsultasController::class, 'reciclajesOrdenadosPorPuntosGanados']);
+Route::get('consultas/usuarios-por-puntos-totales', [ConsultasController::class, 'usuariosOrdenadosPorPuntosTotales']);
+
+
+Route::get('consultas/usuarios-suma-puntos-reciclaje', [ConsultasController::class, 'usuariosConSumaPuntosDeReciclaje']);
+Route::get('consultas/materiales-por-valor-puntos', [ConsultasController::class, 'materialesOrdenadosPorValorDePuntos']);
+Route::get('consultas/categorias-contenido-autores', [ConsultasController::class, 'categoriasConContenidoYAutores']);
+Route::get('consultas/noticias-recientes', [ConsultasController::class, 'noticiasMasRecientes']);
+Route::get('consultas/contenidos-por-formato', [ConsultasController::class, 'contenidosOrdenadosPorFormato']);
+Route::get('consultas/items-por-costo', [ConsultasController::class, 'itemsTiendaOrdenadosPorCosto']);
+Route::get('consultas/items-pases-temporada', [ConsultasController::class, 'itemsTiendaConPasesTemporada']);
+Route::get('consultas/pases-recompensas-usuarios', [ConsultasController::class, 'pasesConRecompensasYUsuarios']);
+Route::get('consultas/progresos-premium', [ConsultasController::class, 'progresosPremiumConUsuarios']);
+Route::get('consultas/arboles-por-nivel', [ConsultasController::class, 'arbolesOrdenadosPorNivel']);

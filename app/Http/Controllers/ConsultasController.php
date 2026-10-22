@@ -7,6 +7,7 @@ use App\Models\perfile;
 use App\Models\User;
 use App\Models\Feedback;
 use App\Models\CategoriaGlobal;
+use App\Models\ContenidoEducativo;
 use App\Models\TipoMateriale;
 use App\Models\MaterialPorPunto;
 use App\Models\RegistroReciclaje;
@@ -19,6 +20,9 @@ use App\Models\CategoriaTienda;
 use App\Models\EstadoArbole;
 use App\Models\HistorialChat;
 use App\Models\ProgresoPase;
+use App\Models\PaseTemporada;
+use App\Models\TiendaItem;
+use App\Models\Zona;
 
 class ConsultasController extends Controller
 {
@@ -189,6 +193,153 @@ class ConsultasController extends Controller
     // Consulta Eloquent: lista los chats junto con el usuario que los inició.
     public function chatsConUsuarios(){
         return HistorialChat::with('user')->get();
+    }
+
+    // Consultas nuevas:
+    // Lista usuarios activos con su perfil y zona.
+    public function usuariosActivosConPerfilYZona(){
+        return User::with(['perfil', 'zona'])
+            ->where('estado_usuario', 'activo')
+            ->get();
+    }
+
+    // Lista usuarios que aún no completan el onboarding junto con su rol y zona.
+    public function usuariosSinCompletarOnboarding(){
+        return User::with(['role', 'zona'])
+            ->where('estado_onboarding', false)
+            ->get();
+    }
+
+    // Muestra cada zona con sus usuarios y puntos de recolección.
+    public function zonasConUsuariosYPuntos(){
+        return Zona::with(['users', 'puntorecoleciones'])->get();
+    }
+
+    // Lista puntos de recolección con los materiales que tienen disponibles.
+    public function puntosConMaterialesDisponibles(){
+        return PuntoRecolecione::with([
+            'zona',
+            'tipoMateriales' => function ($query) {
+                $query->wherePivot('disponible', true);
+            },
+        ])->get();
+    }
+
+    // Cuenta los registros de reciclaje asociados a cada punto.
+    public function puntosConConteoDeReciclajes(){
+        return PuntoRecolecione::withCount('registroReciclajes')
+            ->orderByDesc('registro_reciclajes_count')
+            ->get();
+    }
+
+    // Lista los puntos que reciben cada material y muestra su disponibilidad.
+    public function materialesConPuntosDisponibles(){
+        return TipoMateriale::with([
+            'puntoRecolecciones' => function ($query) {
+                $query->wherePivot('disponible', true);
+            },
+        ])->get();
+    }
+
+    // Muestra cada reciclaje con su usuario, material, punto y zona del punto.
+    public function reciclajesConPuntoYZona(){
+        return RegistroReciclaje::with([
+            'user',
+            'tipoMaterial',
+            'puntoRecoleccion.zona',
+        ])->get();
+    }
+
+    // Lista los reciclajes pendientes con todos sus datos relacionados.
+    public function reciclajesPendientesDeRevision(){
+        return RegistroReciclaje::with(['user', 'tipoMaterial', 'puntoRecoleccion'])
+            ->where('estado', 'pendiente')
+            ->orderBy('created_at')
+            ->get();
+    }
+
+    // Ordena los reciclajes por los puntos ganados e incluye usuario y material.
+    public function reciclajesOrdenadosPorPuntosGanados(){
+        return RegistroReciclaje::with(['user', 'tipoMaterial'])
+            ->orderByDesc('puntos_ganados')
+            ->get();
+    }
+
+    // Ordena los usuarios según sus puntos totales e incluye su rol.
+    public function usuariosOrdenadosPorPuntosTotales(){
+        return User::with('role')
+            ->orderByDesc('puntos_totales')
+            ->get();
+    }
+
+    // Calcula los puntos obtenidos mediante reciclajes para cada usuario.
+    public function usuariosConSumaPuntosDeReciclaje(){
+        return User::withSum('registrosReciclaje', 'puntos_ganados')
+            ->orderByDesc('registros_reciclaje_sum_puntos_ganados')
+            ->get();
+    }
+
+    // Ordena los materiales por el valor de puntos que otorgan.
+    public function materialesOrdenadosPorValorDePuntos(){
+        return TipoMateriale::orderByDesc('valor_puntos')->get();
+    }
+
+    // Lista categorías globales con sus noticias, contenidos y autores.
+    public function categoriasConContenidoYAutores(){
+        return CategoriaGlobal::with([
+            'noticias.user',
+            'contenidosEducativos.user',
+        ])->get();
+    }
+
+    // Muestra las diez noticias más recientes con categoría y autor.
+    public function noticiasMasRecientes(){
+        return Noticia::with(['categoriaGlobal', 'user'])
+            ->latest()
+            ->limit(10)
+            ->get();
+    }
+
+    // Lista contenidos educativos ordenados por formato con categoría y autor.
+    public function contenidosOrdenadosPorFormato(){
+        return ContenidoEducativo::with(['categoriaGlobal', 'user'])
+            ->orderBy('tipo_formato')
+            ->get();
+    }
+
+    // Ordena los artículos de tienda por costo e incluye su categoría.
+    public function itemsTiendaOrdenadosPorCosto(){
+        return TiendaItem::with('categoriaTienda')
+            ->orderBy('costo_moneda_virtual')
+            ->get();
+    }
+
+    // Lista los artículos de tienda con sus pases de temporada.
+    public function itemsTiendaConPasesTemporada(){
+        return TiendaItem::with(['categoriaTienda', 'paseTemporadas'])->get();
+    }
+
+    // Muestra cada pase con su artículo y las recompensas reclamadas por usuarios.
+    public function pasesConRecompensasYUsuarios(){
+        return PaseTemporada::with([
+            'tiendaItem',
+            'recompensasReclamadas.user',
+        ])->get();
+    }
+
+    // Lista los progresos premium con el usuario y ordena por nivel.
+    public function progresosPremiumConUsuarios(){
+        return ProgresoPase::with('user')
+            ->where('es_premium', true)
+            ->orderByDesc('nivel_actual')
+            ->get();
+    }
+
+    // Ordena los árboles por nivel de crecimiento e incluye a sus usuarios.
+    public function arbolesOrdenadosPorNivel(){
+        return EstadoArbole::with('user')
+            ->orderByDesc('nivel_crecimiento')
+            ->get();
     }
 
 }
