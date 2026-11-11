@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Cloudinary\Api\Exception\ApiError;
+use Cloudinary\Cloudinary;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+use RuntimeException;
 
 class WebAuthController extends Controller
 {
@@ -48,6 +54,7 @@ class WebAuthController extends Controller
                 'nombre',
                 'apellido',
                 'alias',
+                'telefono',
                 'ciudad',
                 'biografia',
                 'foto_perfil',
@@ -57,6 +64,84 @@ class WebAuthController extends Controller
                 'claimedRewards' => $user->recompensasReclamadas()->count(),
             ],
         ]);
+    }
+
+    // Guarda los datos y la foto del perfil de la cuenta autenticada.
+    public function updateCurrentProfile(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        $profile = $user->perfil;
+
+        $validated = $request->validate([
+            'nombre' => ['required', 'string', 'max:50'],
+            'apellido' => ['required', 'string', 'max:50'],
+            'alias' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('perfiles', 'alias')->ignore($profile?->id),
+            ],
+            'telefono' => ['nullable', 'string', 'max:20'],
+            'ciudad' => ['nullable', 'string', 'max:100'],
+            'biografia' => ['nullable', 'string', 'max:255'],
+            'foto_perfil' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+        ]);
+
+        $imagenNueva = $validated['foto_perfil'] ?? null;
+        unset($validated['foto_perfil']);
+
+        if (!$profile) {
+            $profile = $user->perfil()->make();
+        }
+
+        $imagenAnterior = $profile->foto_perfil;
+        $profile->fill($validated);
+
+        if ($imagenNueva) {
+            try {
+                // La foto se carga desde el backend para mantener privadas las credenciales.
+                $cloudinary = new Cloudinary([
+                    'cloud' => [
+                        'cloud_name' => config('services.cloudinary.cloud_name'),
+                        'api_key' => config('services.cloudinary.api_key'),
+                        'api_secret' => config('services.cloudinary.api_secret'),
+                    ],
+                    'url' => ['secure' => true],
+                ]);
+
+                $resultado = $cloudinary->uploadApi()->upload(
+                    $imagenNueva->getRealPath(),
+                    [
+                        // Separa las fotos de perfil de las imágenes de noticias.
+                        'folder' => 'perfiles',
+                        'resource_type' => 'image',
+                    ]
+                );
+                // El perfil conserva la URL segura en su campo foto_perfil existente.
+                $profile->foto_perfil = $resultado['secure_url'];
+            } catch (ApiError|RuntimeException $exception) {
+                Log::error('No se pudo cargar la foto de perfil en Cloudinary.', [
+                    'exception_class' => $exception::class,
+                ]);
+
+                return response()->json([
+                    'message' => 'No se pudo cargar la foto en Cloudinary.',
+                ], 502);
+            }
+        }
+
+        $profile->user()->associate($user);
+        $profile->save();
+
+        // Solo limpia el archivo anterior si pertenecía al almacenamiento local legado.
+        if (
+            $imagenNueva
+            && str_starts_with($imagenAnterior ?? '', 'perfiles/')
+        ) {
+            Storage::disk('public')->delete($imagenAnterior);
+        }
+
+        return $this->currentProfile($request);
     }
 
     // Devuelve el inventario y las recompensas reclamadas por el usuario autenticado.

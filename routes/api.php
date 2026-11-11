@@ -62,7 +62,12 @@ Route::apiResource('inventarios', InventarioUsuarioController::class);
 // RUTA MATERIAL-POR-PUNTOS TABLA PIVOTE
 Route::apiResource('materiales', MaterialPorPuntoController::class);
 // RUTA NOTICIAS
-Route::apiResource('noticias', NoticiaController::class);
+Route::apiResource('noticias', NoticiaController::class)->only(['index', 'show']);
+// Protege cambios de noticias con sesión web y validación CSRF.
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::apiResource('noticias', NoticiaController::class)
+        ->only(['store', 'update', 'destroy']);
+});
 // RUTA PASE-TEMPORADA
 Route::apiResource('pases', PaseTemporadaController::class);
 // RUTA PERFILES

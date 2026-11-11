@@ -29,6 +29,8 @@ Route::post('/login', [WebAuthController::class, 'login'])->middleware('throttle
 Route::get('/me', [WebAuthController::class, 'currentUser'])->middleware('auth');
 // Protege los datos personales y filtra el perfil según la sesión activa.
 Route::get('/my-profile', [WebAuthController::class, 'currentProfile'])->middleware('auth');
+// Solo la sesión propietaria puede crear o actualizar su perfil y su foto.
+Route::put('/my-profile', [WebAuthController::class, 'updateCurrentProfile'])->middleware('auth');
 // Entrega únicamente la colección asociada al usuario autenticado.
 Route::get('/my-collection', [WebAuthController::class, 'currentCollection'])->middleware('auth');
 Route::post('/logout', [WebAuthController::class, 'logout'])->middleware('auth');
