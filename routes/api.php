@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaGlobalController;
 use App\Http\Controllers\CategoriaTiendaController;
 use App\Http\Controllers\ContenidoEducativoController;
@@ -86,6 +87,9 @@ Route::apiResource('registros', RegistroReciclajeController::class);
 Route::apiResource('items', TiendaItemController::class);
 // RUTA USUARIO
 Route::apiResource('usuarios', UserController::class);
+// RUTAS DE AUTENTICACION
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('consultas/noticias', [ConsultasController::class, 'noticiasConCategoriaYAutor']);
 Route::get('consultas/puntos-zona', [ConsultasController::class, 'puntosConZona']);
