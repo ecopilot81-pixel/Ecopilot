@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriaGlobalController;
 use App\Http\Controllers\CategoriaTiendaController;
 use App\Http\Controllers\ContenidoEducativoController;
@@ -62,7 +63,12 @@ Route::apiResource('inventarios', InventarioUsuarioController::class);
 // RUTA MATERIAL-POR-PUNTOS TABLA PIVOTE
 Route::apiResource('materiales', MaterialPorPuntoController::class);
 // RUTA NOTICIAS
-Route::apiResource('noticias', NoticiaController::class);
+Route::apiResource('noticias', NoticiaController::class)->only(['index', 'show']);
+// Protege cambios de noticias con sesión web y validación CSRF.
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::apiResource('noticias', NoticiaController::class)
+        ->only(['store', 'update', 'destroy']);
+});
 // RUTA PASE-TEMPORADA
 Route::apiResource('pases', PaseTemporadaController::class);
 // RUTA PERFILES
@@ -81,6 +87,9 @@ Route::apiResource('registros', RegistroReciclajeController::class);
 Route::apiResource('items', TiendaItemController::class);
 // RUTA USUARIO
 Route::apiResource('usuarios', UserController::class);
+// RUTAS DE AUTENTICACION
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('consultas/noticias', [ConsultasController::class, 'noticiasConCategoriaYAutor']);
 Route::get('consultas/puntos-zona', [ConsultasController::class, 'puntosConZona']);

@@ -8,24 +8,28 @@ use Illuminate\Database\Eloquent\Model;
 class Noticia extends Model
 {
     use HasFactory;
+
     // Un noticia pertenece a una categoria global.
-    public function categoriaGlobal(){
+    public function categoriaGlobal()
+    {
         return $this->belongsTo(CategoriaGlobal::class);
     }
+
     // Una noticia pertenece a un usuario.
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
     protected $fillable = [
-    'titulo',               
-    'resumen',          
-    'contenido',          
-    'imagen_destacada',    
-    'fuente',               
-    'url_fuente',           
-    'estado_noticia',       
-    'user_id',
-    'categoria_global_id',
+        'titulo',
+        'resumen',
+        'contenido',
+        'imagen_destacada',
+        'fuente',
+        'url_fuente',
+        'estado_noticia',
+        'user_id',
+        'categoria_global_id',
     ];
 }
