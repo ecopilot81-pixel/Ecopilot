@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\PersonalAccessToken;
+
 class AuthController extends Controller
 {
     public function register(Request $request) {
@@ -39,7 +41,9 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)
+            ->where('estado_usuario', 'activo')
+            ->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
@@ -52,7 +56,29 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Inicio de sesion exitoso',
             'token' => $token,
-            'user' => $user
+            'user' => $user->only([
+                'id',
+                'name',
+                'email',
+                'puntos_totales',
+                'estado_usuario',
+            ]),
         ], 200);
+    }
+
+    // Revoca el token Bearer utilizado por la solicitud actual.
+    public function logout(Request $request) {
+        $token = $request->user()->currentAccessToken();
+        if (!$token instanceof PersonalAccessToken) {
+            return response()->json([
+                'message' => 'No se encontró un token personal para revocar.',
+            ], 400);
+        }
+
+        $token->delete();
+
+        return response()->json([
+            'message' => 'Sesión cerrada correctamente.',
+        ]);
     }
 }

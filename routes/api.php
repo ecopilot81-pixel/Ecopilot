@@ -22,6 +22,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TiendaItemController;
 use App\Http\Controllers\TipoMaterialeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WebAuthController;
 use App\Http\Controllers\ZonaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,26 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Expone los datos privados de la cuenta solo a solicitudes con token Bearer.
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/me', function (Request $request) {
+        return $request->user()->only([
+            'id',
+            'name',
+            'email',
+            'puntos_totales',
+            'estado_usuario',
+        ]);
+    });
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/my-profile', [WebAuthController::class, 'currentProfile']);
+    Route::put('/my-profile', [WebAuthController::class, 'updateCurrentProfile']);
+    Route::get('/my-collection', [WebAuthController::class, 'currentCollection']);
+    Route::get('/my-chat-history', [HistorialChatController::class, 'index']);
+    Route::post('/my-chat-history', [HistorialChatController::class, 'store']);
+});
+
 // RUTA TIPO-MATERIAL
 Route::apiResource('tipos-materiales', TipoMaterialeController::class);
 // RUTA CATEGORIA-GLOBAL
@@ -57,7 +78,7 @@ Route::apiResource('arboles', EstadoArboleController::class);
 // RUTA DE FEEDBACK
 Route::apiResource('reseñas', FeedbackController::class);
 // RUTA HISTORIA-CHATS
-Route::apiResource('chats', HistorialChatController::class);
+Route::apiResource('chats', HistorialChatController::class)->middleware('auth:sanctum');
 // RUTA INVENTARIO-USURAIO TABLA PIVOTE
 Route::apiResource('inventarios', InventarioUsuarioController::class);
 // RUTA MATERIAL-POR-PUNTOS TABLA PIVOTE
@@ -89,7 +110,7 @@ Route::apiResource('items', TiendaItemController::class);
 Route::apiResource('usuarios', UserController::class);
 // RUTAS DE AUTENTICACION
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:10,1');
 
 Route::get('consultas/noticias', [ConsultasController::class, 'noticiasConCategoriaYAutor']);
 Route::get('consultas/puntos-zona', [ConsultasController::class, 'puntosConZona']);
